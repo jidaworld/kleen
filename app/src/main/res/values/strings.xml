@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Kleen</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="step_counter"> </string>
+    <string name="tab_text_1">Steps</string>
+    <string name="tab_text_2">Graph</string>
+
+    <string name="graph_goes_here">GRAPH GOES HERE</string>
+    <string name="steps_goes_here">STEPS</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
