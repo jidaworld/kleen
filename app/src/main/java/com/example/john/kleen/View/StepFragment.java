@@ -5,13 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.john.kleen.R;
+
+import java.util.StringTokenizer;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -24,22 +29,61 @@ public class StepFragment extends Fragment {
 
     private String save = "saveName";
     private int stepDisplay;
+    private TextView infoText;
+    private StringTokenizer token;
+    private String text = "";
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.step_fragment, container, false);
 
+        infoText = view.findViewById(R.id.info);
         textView = view.findViewById(R.id.text_steps);
-        Log.i("BundleDebug","onCreateView");
-        if(getArguments()!=null){
+        loadData();
+
+        if (getArguments() != null) {
             stepDisplay = getArguments().getInt(ARG_PARAM2);
         }
-        textView.setText(""+stepDisplay);
+        textView.setText("" + stepDisplay);
+
+        final Button button_goal = view.findViewById(R.id.goal_button);
+        button_goal.setOnClickListener((v) -> {
+            String goal = ((EditText) view.findViewById(R.id.goal_input)).getText().toString();
+            if (!goal.equals("")) {
+                int step_goal = Integer.parseInt(goal);
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("goal", step_goal);
+                editor.apply();
+                token = new StringTokenizer(text, ".");
+                token.nextToken();
+                text = "Current goal: " + step_goal + "." + token.nextToken();
+                infoText.setText(text);
+            }
+        });
+
+        final Button button_weight = view.findViewById(R.id.weight_button);
+        button_weight.setOnClickListener((v) -> {
+            String weight = ((EditText) view.findViewById(R.id.weight_input)).getText().toString();
+            if (!weight.equals("")) {
+                int weight_int = Integer.parseInt(weight);
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("weight_save", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("weight", weight_int);
+                editor.apply();
+                token = new StringTokenizer(text, ".");
+                text = token.nextToken() + ". You weigh " + weight_int + " kg";
+                infoText.setText(text);
+            }
+        });
+
         return view;
     }
 
-    public static StepFragment newInstance(int steps){
+    public static StepFragment newInstance(int steps) {
         StepFragment fragment = new StepFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM2, steps);
@@ -47,8 +91,8 @@ public class StepFragment extends Fragment {
         return fragment;
     }
 
-    public static void updateStepCounter(int steps){
-        if(textView!=null) {
+    public static void updateStepCounter(int steps) {
+        if (textView != null) {
             textView.setText("" + steps);
         }
     }
@@ -56,7 +100,6 @@ public class StepFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadData();
         if (getArguments() != null) {
             stepDisplay = getArguments().getInt(ARG_PARAM2);
         }
@@ -77,9 +120,19 @@ public class StepFragment extends Fragment {
         this.stepDisplay = stepDisplay;
     }
 
-    public void loadData(){
+    public void loadData() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(save, MODE_PRIVATE);
-        stepDisplay = sharedPreferences.getInt("steps",0);
+        stepDisplay = sharedPreferences.getInt("steps", 0);
         updateStepCounter(stepDisplay);
+
+        sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
+        int savedGoal = sharedPreferences.getInt("goal", 0);
+        sharedPreferences = getActivity().getSharedPreferences("weight_save", MODE_PRIVATE);
+        int weightGoal = sharedPreferences.getInt("weight", 0);
+
+        text = "Current goal: " + savedGoal + ". You weigh " + weightGoal + " kg";
+        if (infoText != null) {
+            infoText.setText(text);
+        }
     }
 }

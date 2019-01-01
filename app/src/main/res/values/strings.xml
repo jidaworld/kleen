@@ -6,7 +6,7 @@
     <string name="tab_text_1">Steps</string>
     <string name="tab_text_2">Graph</string>
 
-    <string name="graph_goes_here">GRAPH GOES HERE</string>
+    <string name="graph_goes_here">Your progress</string>
     <string name="steps_goes_here">STEPS</string>
 
     <!-- TODO: Remove or change this placeholder text -->
