@@ -9,6 +9,33 @@
     android:padding="16dp"
     tools:layout_editor_absoluteY="81dp">
 
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="8dp"
+        android:text="Start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Stop"
+        app:layout_constraintBottom_toTopOf="@+id/info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_button"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/text_steps"
@@ -16,19 +43,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
         android:layout_marginEnd="130dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/steps_goes_here"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/goal_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.431"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginBottom="170dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="32dp"
         android:text="Current goal: 10000 steps. You weigh 70kg"
         app:layout_constraintBottom_toTopOf="@+id/text_steps"
         app:layout_constraintStart_toStartOf="parent" />

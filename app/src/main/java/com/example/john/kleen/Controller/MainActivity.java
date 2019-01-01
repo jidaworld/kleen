@@ -16,6 +16,7 @@ import android.support.v7.widget.ActivityChooserView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.john.kleen.Model.ProgressObject;
@@ -50,22 +51,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        ArrayList<ProgressObject> list = new ArrayList<>();
-//        int steps;
-//        save.read();
-//        LocalDate tmp = LocalDate.of(2018, 1, 1);
-//        while (tmp.isBefore(LocalDate.of(2019, 1, 1))) {
-//            steps = ThreadLocalRandom.current().nextInt(8000, 13000);
-//            list.add(new ProgressObject(
-//                    steps,
-//                    tmp.isBefore(LocalDate.of(2018, 5, 23)) ? 10000 : 11000,
-//                    tmp,
-//                    tmp.isBefore(LocalDate.of(2018, 12, 16)) ? 65 : 64,
-//                    steps * 0.05
-//            ));
-//            tmp = tmp.plusDays(1);
-//        }
-//        save.write(list);
+        ArrayList<ProgressObject> list = new ArrayList<>();
+        int steps;
+        save.read();
+        LocalDate tmp = LocalDate.of(2018, 1, 1);
+        while (tmp.isBefore(LocalDate.of(2019, 1, 1))) {
+            steps = ThreadLocalRandom.current().nextInt(8000, 13000);
+            list.add(new ProgressObject(
+                   steps,
+                    tmp.isBefore(LocalDate.of(2018, 5, 23)) ? 10000 : 11000,
+                    tmp,
+                    tmp.isBefore(LocalDate.of(2018, 12, 16)) ? 65 : 64,
+                    steps * 0.05
+           ));
+            tmp = tmp.plusDays(1);
+        }
+        save.write(list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        Intent intent = new Intent(this, StepCounterService.class);
-        startService(intent);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }

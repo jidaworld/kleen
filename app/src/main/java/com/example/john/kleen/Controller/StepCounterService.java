@@ -3,6 +3,7 @@ package com.example.john.kleen.Controller;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,9 +18,12 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.Util.BusStation;
 import com.example.john.kleen.Model.StepEvent;
 import com.example.john.kleen.R;
+
+import java.util.ArrayList;
 
 public class StepCounterService extends Service implements SensorEventListener {
 
@@ -27,6 +31,7 @@ public class StepCounterService extends Service implements SensorEventListener {
     public static final String CHANNEL_1_ID = "channel1";
     public static final String CHANNEL_2_ID = "channel2";
     private NotificationManagerCompat notificationManagerCompat;
+    private ArrayList<ProgressObject> list = new ArrayList<>();
 
     private String save = "saveName";
 
@@ -51,9 +56,8 @@ public class StepCounterService extends Service implements SensorEventListener {
         steps = (int) event.values[0];
         BusStation.getBus().post(new StepEvent(steps));
         Log.i("StepCounter","Step Counter: " + Integer.toString(steps));
-
         saveData();
-        //sendNotification();
+        sendNotification();
     }
 
     private void createNotificationChannel() {
@@ -68,16 +72,35 @@ public class StepCounterService extends Service implements SensorEventListener {
             channelTwo.setDescription("Shows current steps");
             notificationManager.createNotificationChannel(channelTwo);
 
+            Intent startIntent = new Intent(this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, startIntent, 0);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                    .setSmallIcon(R.drawable.ic_steps)
+                    .setContentTitle("Steps")
+                    .setContentText("Current steps: " + String.format("%d", steps))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setContentIntent(pendingIntent)
+                    .build();
+
+            startForeground(1, notification);
+
         }
     }
 
     private void sendNotification(){
+
+        Intent startIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, startIntent, 0);
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_steps)
                 .setContentTitle("Yay")
                 .setContentText("Current steps: " + String.format("%d", steps))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setContentIntent(pendingIntent)
                 .build();
         notificationManagerCompat.notify(1,notification);
     }

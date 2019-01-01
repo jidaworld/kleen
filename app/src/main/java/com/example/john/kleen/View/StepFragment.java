@@ -1,10 +1,12 @@
 package com.example.john.kleen.View;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.john.kleen.Controller.StepCounterService;
 import com.example.john.kleen.R;
 
 import java.util.StringTokenizer;
@@ -80,6 +83,16 @@ public class StepFragment extends Fragment {
             }
         });
 
+        final Button button_start = view.findViewById(R.id.start_button);
+        button_start.setOnClickListener((v)-> {
+            startFService(view);
+        });
+
+        final Button button_stop = view.findViewById(R.id.stop_button);
+        button_stop.setOnClickListener((v)-> {
+            stopFService(view);
+        });
+
         return view;
     }
 
@@ -95,6 +108,18 @@ public class StepFragment extends Fragment {
         if (textView != null) {
             textView.setText("" + steps);
         }
+    }
+
+    public void startFService(View v){
+        Intent intent = new Intent(getActivity(), StepCounterService.class);
+        intent.putExtra("startFService","");
+        ContextCompat.startForegroundService(getActivity(), intent);
+    }
+
+    public void stopFService(View v){
+        Intent intent = new Intent(getActivity(), StepCounterService.class);
+        intent.putExtra("stopFService","");
+        getActivity().stopService(intent);
     }
 
     @Override
