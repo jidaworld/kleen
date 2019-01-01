@@ -1,17 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    tools:layout_editor_absoluteY="81dp">
 
 
     <TextView
         android:id="@+id/text_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/steps_goes_here"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/goal_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginBottom="170dp"
+        android:text="Current goal: 10000 steps. You weigh 70kg"
+        app:layout_constraintBottom_toTopOf="@+id/text_steps"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/goal_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="15dp"
+        android:text="Set goal"
+        app:layout_constraintBottom_toTopOf="@+id/weight_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/weight_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="20dp"
+        android:text="Set weight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/goal_input"
+        android:layout_width="83dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="steps"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/weight_input"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/weight_input"
+        android:layout_width="83dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="weight"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
