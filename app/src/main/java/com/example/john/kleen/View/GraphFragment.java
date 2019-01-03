@@ -38,11 +38,6 @@ public class GraphFragment extends Fragment {
     private static ArrayList<ProgressObject> yearList = new ArrayList<>();
     private static ArrayList<ProgressObject> monthList = new ArrayList<>();
     private static List<ProgressObject> poList = new ArrayList<>();
-    private DBHandler dbH = new DBHandler();
-    private String currentDateString;
-    private static final Handler mHandler = new Handler();
-    private static Runnable mTimer2;
-    private static int stepsInt = -1;
     private View view;
     private TextView textView;
     private static TextView stepsAvr;
@@ -58,9 +53,6 @@ public class GraphFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.graph_fragment, container, false);
-
-        System.out.println("hello");
-        getCurrentDate();
 
         textView = view.findViewById(R.id.text_view_graph);
         graph_year = (GraphView) view.findViewById(R.id.graph_year);
@@ -82,6 +74,8 @@ public class GraphFragment extends Fragment {
         graph_month.getViewport().setMinX(1);
         graph_month.getViewport().setMinY(0);
         graph_month.getViewport().setYAxisBoundsManual(true);
+        GridLabelRenderer gridLabel_month = graph_month.getGridLabelRenderer();
+        gridLabel_month.setHorizontalAxisTitle("januari");
 
         stepsAvr.setText("Average steps per day: " + avrSteps);
         graph_year.getLegendRenderer().setVisible(true);
@@ -93,17 +87,6 @@ public class GraphFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    public void getCurrentDate() {
-        Date currentDate = new Date();
-        SimpleDateFormat simpleDate = new SimpleDateFormat("EEEE, MMMM d, yyyy");
-        currentDateString = simpleDate.format(currentDate);
-    }
 
     public static void setPoList(List<ProgressObject> poList) {
         String arr[];
@@ -118,17 +101,7 @@ public class GraphFragment extends Fragment {
             }
         }
 
-        stepSeries_year.setColor(Color.BLACK);
-        stepSeries_year.setTitle("steps");
-        goalSeries_year.setColor(Color.RED);
-        goalSeries_year.setTitle("goal");
-        graph_year.getLegendRenderer().setVisible(true);
-
-        //GridLabelRenderer gridLabel_month = graph_month.getGridLabelRenderer();
-        //gridLabel_month.setHorizontalAxisTitle(monthList.get(0).getDate().getMonth().name());
-
         for (int i = 0; i < yearList.size(); i++) {
-            System.out.println(i + " yearlist " + yearList.get(i).getSteps());
             stepSeries_year.appendData(new DataPoint(i, yearList.get(i).getSteps()), false, yearList.size());
             goalSeries_year.appendData(new DataPoint(i, yearList.get(i).getStep_goal()), false, yearList.size());
             avrSteps += yearList.get(i).getSteps();
@@ -138,10 +111,15 @@ public class GraphFragment extends Fragment {
         stepsAvr.setText("Average steps per day: " + avrSteps);
 
         for (int i = 0; i < monthList.size(); i++) {
-            System.out.println(i + "monthlist");
             stepSeries_month.appendData(new DataPoint(i+1, monthList.get(i).getSteps()), false, monthList.size());
             goalSeries_month.appendData(new DataPoint(i+1, monthList.get(i).getStep_goal()), false, monthList.size());
         }
+
+        stepSeries_year.setColor(Color.BLACK);
+        stepSeries_year.setTitle("steps");
+        goalSeries_year.setColor(Color.RED);
+        goalSeries_year.setTitle("goal");
+        graph_year.getLegendRenderer().setVisible(true);
 
     }
 }

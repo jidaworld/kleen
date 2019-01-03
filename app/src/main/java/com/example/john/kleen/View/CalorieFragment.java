@@ -17,48 +17,51 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CalorieFragment extends Fragment {
 
-    ArrayList<ProgressObject> list_month = new ArrayList<>();
+    private static ArrayList<ProgressObject> list_month = new ArrayList<>();
+    private static GraphView graph;
+    private View view;
+    private static LineGraphSeries<DataPoint> calorieSeries = new LineGraphSeries<>();
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.calorie_fragment, container, false);
-
-
-        GraphView graph = (GraphView) view.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> calorieSeries = new LineGraphSeries<>();
-        for(int i = 0; i<list_month.size(); i++){
-            calorieSeries.appendData(new DataPoint(i+1, list_month.get(i).getCalories()), true, list_month.size());
-        }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.calorie_fragment, container, false);
+        graph = (GraphView) view.findViewById(R.id.graph);
 
         calorieSeries.setTitle("Calories burned");
-/*        graph.addSeries(calorieSeries);
-        graph.getViewport().setMaxX(list_month.size());
+        graph.getViewport().setMaxX(31);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(1);
         graph.getViewport().setMaxY(700);
         graph.getViewport().setMinY(0);
         graph.getViewport().setYAxisBoundsManual(true);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-        gridLabel.setHorizontalAxisTitle(list_month.get(0).getDate().getMonth().name());
-        graph.getLegendRenderer().setVisible(true);*/
+        gridLabel.setHorizontalAxisTitle("januari");
+        graph.getLegendRenderer().setVisible(true);
+
+        graph.addSeries(calorieSeries);
 
         return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static void setPoList(List<ProgressObject> poList) {
 
-/*        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
-        for(ProgressObject o : list) {
-            if(o.getDate().getMonth().getValue() == 12){
+        String arr[];
+        for (ProgressObject o : poList) {
+            arr = o.getDate().split(",");
+            arr = arr[1].split(" ");
+            if (arr[1].equals("januari")) {
                 list_month.add(o);
             }
-        }*/
-    }
+        }
 
+        for (int i = 0; i < list_month.size(); i++) {
+            calorieSeries.appendData(new DataPoint(i + 1, list_month.get(i).getCalories()), true, list_month.size());
+        }
+
+    }
 }

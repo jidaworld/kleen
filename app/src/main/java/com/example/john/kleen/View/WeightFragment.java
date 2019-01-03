@@ -16,46 +16,51 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeightFragment extends Fragment {
 
-    ArrayList<ProgressObject> list_month = new ArrayList<>();
+    private static ArrayList<ProgressObject> list_month = new ArrayList<>();
+    private View view;
+    private static GraphView graph;
+    private static LineGraphSeries<DataPoint> weightSeries = new LineGraphSeries<>();
 
     @Override
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.weight_fragment, container, false);
+        view = inflater.inflate(R.layout.weight_fragment, container, false);
 
-        GraphView graph = (GraphView) view.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> weightSeries = new LineGraphSeries<>();
+        graph = (GraphView) view.findViewById(R.id.graph);
+
+        weightSeries.setTitle("Your weight");
+        graph.getViewport().setMaxX(31);
+        graph.getViewport().setMinX(1);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMaxY(80);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setYAxisBoundsManual(true);
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle("januari");
+        graph.addSeries(weightSeries);
+        graph.getLegendRenderer().setVisible(true);
+        return view;
+    }
+
+    public static void setPoList(List<ProgressObject> poList) {
+
+        String arr[];
+        for (ProgressObject o : poList) {
+            arr = o.getDate().split(",");
+            arr = arr[1].split(" ");
+            if (arr[1].equals("januari")) {
+                System.out.println("added");
+                list_month.add(o);
+            }
+        }
 
         for(int i = 0; i<list_month.size();i++) {
             weightSeries.appendData(new DataPoint(i+1, list_month.get(i).getWeight()), true, list_month.size());
         }
-
-        weightSeries.setTitle("Your weight");
-/*        graph.getViewport().setMaxX(list_month.size());
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMaxY(80);
-        graph.getViewport().setMinY(50);
-        graph.getViewport().setYAxisBoundsManual(true);
-        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
-        gridLabel.setHorizontalAxisTitle(list_month.get(0).getDate().getMonth().name());
-        graph.addSeries(weightSeries);
-        graph.getLegendRenderer().setVisible(true);*/
-        return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-/*        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
-        for(ProgressObject o : list) {
-            if(o.getDate().getMonth().getValue() == 12){
-                list_month.add(o);
-            }
-        }*/
     }
 
 }

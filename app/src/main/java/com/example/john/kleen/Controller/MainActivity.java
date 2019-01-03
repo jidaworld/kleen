@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
         poList = list;
         Log.i("DebugFirebase","received data");
         GraphFragment.setPoList(poList);
+        CalorieFragment.setPoList(poList);
+        WeightFragment.setPoList(poList);
     }
 
     @Override
