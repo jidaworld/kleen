@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,9 @@ public class StepCounterService extends Service implements SensorEventListener {
     private NotificationManagerCompat notificationManagerCompat;
     private int counter = 0;
     private String currentDateString;
+    private List<ProgressObject> poList = new ArrayList<>();
 
-    private DBHandler dbH = new DBHandler(this);
+    private DBHandler dbH = new DBHandler();
 
 
     @Override
@@ -157,15 +159,13 @@ public class StepCounterService extends Service implements SensorEventListener {
                     ProgressObject po = new ProgressObject(steps);
                     BusStation.getBus().post(po);
                 }
+                poList = list;
+                BusStation.getBus().post(poList);
             }
+
         });
     }
 
-    public void whenFinished(DBHandler.Result result) {
-        Log.i("DebugFirebase", "whenFinished");
-        Log.i("DebugFirebase", Integer.toString(result.dataList.size()));
-
-    }
 
     public void getCurrentDate() {
         Date currentDate = new Date();

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "81617833200-k0ppijqtol63mrkk1tn8msv1tul76k40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.john.kleen",
+            "certificate_hash": "e87ca5e7082ee1309d81a3d3f282093e528f5fed"
+          }
+        },
+        {
           "client_id": "81617833200-krrm21ltkml60u7b9h8v937t9eqskphh.apps.googleusercontent.com",
           "client_type": 3
         }

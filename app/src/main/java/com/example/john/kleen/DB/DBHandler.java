@@ -22,10 +22,10 @@ public class DBHandler {
     private static DatabaseReference myRef = db.getReference("kleen");
     private static ProgressObject po;
     private ArrayList<ProgressObject> list = new ArrayList<>();
-    private StepCounterService service;
 
-    public DBHandler(StepCounterService service) {
-        this.service = service;
+
+
+    public DBHandler() {
     }
 
     public static Result doInBackground(CallBack callBack) {
@@ -54,11 +54,6 @@ public class DBHandler {
             }
         });
         return result;
-    }
-
-    protected void onPostExecute(Result result) {
-        Log.i("DebugFirebase","onPostExecute");
-        service.whenFinished(result);
     }
 
     public static class Result {

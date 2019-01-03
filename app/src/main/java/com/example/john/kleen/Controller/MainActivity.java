@@ -14,11 +14,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ActivityChooserView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.john.kleen.DB.CallBack;
+import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.SaveData;
 import com.example.john.kleen.Model.StepEvent;
@@ -35,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     public SaveData save = new SaveData(this);
+    private List<ProgressObject> poList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ArrayList<ProgressObject> list = new ArrayList<>();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,6 +95,13 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void receivedData(ProgressObject progressObject) {
         StepFragment.updateStepCounter(progressObject.getSteps());
+    }
+
+    @Subscribe
+    public void receivedDataList(ArrayList<ProgressObject> list) {
+        poList = list;
+        Log.i("DebugFirebase","received data");
+        GraphFragment.setPoList(poList);
     }
 
     @Override
@@ -141,8 +152,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 4;
         }
     }
+
 
 }
