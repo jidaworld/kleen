@@ -34,7 +34,7 @@ public class WeightFragment extends Fragment {
         }
 
         weightSeries.setTitle("Your weight");
-        graph.getViewport().setMaxX(list_month.size());
+/*        graph.getViewport().setMaxX(list_month.size());
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMaxY(80);
         graph.getViewport().setMinY(50);
@@ -42,7 +42,7 @@ public class WeightFragment extends Fragment {
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle(list_month.get(0).getDate().getMonth().name());
         graph.addSeries(weightSeries);
-        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setVisible(true);*/
         return view;
     }
 
@@ -50,12 +50,12 @@ public class WeightFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
+/*        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
         for(ProgressObject o : list) {
             if(o.getDate().getMonth().getValue() == 12){
                 list_month.add(o);
             }
-        }
+        }*/
     }
 
 }

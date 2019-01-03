@@ -18,45 +18,58 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.john.kleen.DB.CallBack;
+import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.Util.BusStation;
 import com.example.john.kleen.Model.StepEvent;
 import com.example.john.kleen.R;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 public class StepCounterService extends Service implements SensorEventListener {
 
-    private static int steps;
+    private static int steps = -1;
     public static final String CHANNEL_1_ID = "channel1";
     public static final String CHANNEL_2_ID = "channel2";
     private NotificationManagerCompat notificationManagerCompat;
-    private ArrayList<ProgressObject> list = new ArrayList<>();
+    private int counter = 0;
+    private String currentDateString;
 
-    private String save = "saveName";
+    private DBHandler dbH = new DBHandler(this);
+
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId){
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         createNotificationChannel();
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         Sensor stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if(stepCounterSensor!=null){
+        if (stepCounterSensor != null) {
             sensorManager.registerListener(this, stepCounterSensor, sensorManager.SENSOR_DELAY_UI);
         } else {
             Toast.makeText(this, "Bork, no step sensor detected", Toast.LENGTH_LONG).show();
         }
-
+        getCurrentDate();
+        loadData();
         notificationManagerCompat = NotificationManagerCompat.from(this);
-
         return START_STICKY;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        steps = (int) event.values[0];
-        BusStation.getBus().post(new StepEvent(steps));
-        Log.i("StepCounter","Step Counter: " + Integer.toString(steps));
-        saveData();
+        steps++;
+        ProgressObject po = new ProgressObject(steps);
+        BusStation.getBus().post(po);
+        Log.i("StepCounter", "Step Counter: " + Integer.toString(steps));
+        counter++;
+        if (counter >= 25) {
+            saveData(po);
+            counter = 0;
+        }
         sendNotification();
     }
 
@@ -89,7 +102,7 @@ public class StepCounterService extends Service implements SensorEventListener {
         }
     }
 
-    private void sendNotification(){
+    private void sendNotification() {
 
         Intent startIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, startIntent, 0);
@@ -102,7 +115,7 @@ public class StepCounterService extends Service implements SensorEventListener {
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setContentIntent(pendingIntent)
                 .build();
-        notificationManagerCompat.notify(1,notification);
+        notificationManagerCompat.notify(1, notification);
     }
 
     @Override
@@ -115,14 +128,50 @@ public class StepCounterService extends Service implements SensorEventListener {
         //???
     }
 
-    public void saveData(){
+/*    public void saveData(){
         SharedPreferences sharedPreferences = getSharedPreferences(save, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Log.i("StepCounter","Saved Data");
         editor.putInt("steps",steps);
         editor.apply();
+    }*/
+
+    public void saveData(ProgressObject po) {
+        dbH.sendToDB(po);
     }
 
+    public void loadData() {
+        dbH.doInBackground(new CallBack() {
+            @Override
+            public void callBack(List<ProgressObject> list) {
+                for (int i = 0; i < list.size(); i++) {
+                    Log.i("DebugFirebase", "whenFinished");
+                    Log.i("DebugFirebase", list.get(i).toString());
+                }
+                if (list.size() > 0) {
+                    if (currentDateString.equals(
+                            list
+                                    .get(list.size() - 1)
+                                    .getDate()))
+                        steps = list.get(list.size() - 1).getSteps();
+                    ProgressObject po = new ProgressObject(steps);
+                    BusStation.getBus().post(po);
+                }
+            }
+        });
+    }
+
+    public void whenFinished(DBHandler.Result result) {
+        Log.i("DebugFirebase", "whenFinished");
+        Log.i("DebugFirebase", Integer.toString(result.dataList.size()));
+
+    }
+
+    public void getCurrentDate() {
+        Date currentDate = new Date();
+        SimpleDateFormat simpleDate = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        currentDateString = simpleDate.format(currentDate);
+    }
 
 
 }

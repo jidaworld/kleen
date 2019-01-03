@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "81617833200",
+    "firebase_url": "https://kleen-9ef65.firebaseio.com",
+    "project_id": "kleen-9ef65",
+    "storage_bucket": "kleen-9ef65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81617833200:android:14e05cec06f284cb",
+        "android_client_info": {
+          "package_name": "com.example.john.kleen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81617833200-iuumiu1o37h2sejn1u5u6anursvpaa18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.john.kleen",
+            "certificate_hash": "6be3797f96a74f36ddc5f1a3410b2a2d43ac806d"
+          }
+        },
+        {
+          "client_id": "81617833200-krrm21ltkml60u7b9h8v937t9eqskphh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXG0Y3Zgzh4d0FPzruMnaYirENJ1WBPIk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81617833200-krrm21ltkml60u7b9h8v937t9eqskphh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

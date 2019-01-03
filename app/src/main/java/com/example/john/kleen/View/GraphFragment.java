@@ -39,12 +39,12 @@ public class GraphFragment extends Fragment {
         LineGraphSeries<DataPoint> stepSeries_year = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> goalSeries_year = new LineGraphSeries<>();
 
-        for(int i = 0; i<yearList.size();i++){
+        /*for(int i = 0; i<yearList.size();i++){
             stepSeries_year.appendData(new DataPoint(i+1, yearList.get(i).getSteps()), true, yearList.size());
             goalSeries_year.appendData(new DataPoint(i+1, yearList.get(i).getStep_goal()), true, yearList.size());
             avrSteps += yearList.get(i).getSteps();
         }
-        avrSteps /= yearList.size();
+        //avrSteps /= yearList.size();
 
         TextView stepsAvr = view.findViewById(R.id.stepavr);
         stepsAvr.setText("Average steps per day: "+ avrSteps);
@@ -78,10 +78,10 @@ public class GraphFragment extends Fragment {
         graph_month.getViewport().setMinX(1);
         graph_month.getViewport().setMinY(0);
         graph_month.getViewport().setYAxisBoundsManual(true);
-        GridLabelRenderer gridLabel_month = graph_month.getGridLabelRenderer();
-        gridLabel_month.setHorizontalAxisTitle(monthList.get(0).getDate().getMonth().name());
+        //GridLabelRenderer gridLabel_month = graph_month.getGridLabelRenderer();
+        //gridLabel_month.setHorizontalAxisTitle(monthList.get(0).getDate().getMonth().name());
         graph_month.addSeries(stepSeries_month);
-        graph_month.addSeries(goalSeries_month);
+        graph_month.addSeries(goalSeries_month);*/
 
         return view;
     }
@@ -89,7 +89,7 @@ public class GraphFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
+/*        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
         for(ProgressObject o : list){
             if(o.getDate().getYear() == 2018){
                 yearList.add(o);
@@ -97,7 +97,7 @@ public class GraphFragment extends Fragment {
             if(o.getDate().getMonth() == LocalDate.of(2018,12,1).getMonth()){
                 monthList.add(o);
             }
-        }
+        }*/
 
     }
 

@@ -35,7 +35,7 @@ public class CalorieFragment extends Fragment {
         }
 
         calorieSeries.setTitle("Calories burned");
-        graph.addSeries(calorieSeries);
+/*        graph.addSeries(calorieSeries);
         graph.getViewport().setMaxX(list_month.size());
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(1);
@@ -44,7 +44,7 @@ public class CalorieFragment extends Fragment {
         graph.getViewport().setYAxisBoundsManual(true);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle(list_month.get(0).getDate().getMonth().name());
-        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setVisible(true);*/
 
         return view;
     }
@@ -53,12 +53,12 @@ public class CalorieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
+/*        ArrayList<ProgressObject> list = new SaveData(this.getActivity()).read();
         for(ProgressObject o : list) {
             if(o.getDate().getMonth().getValue() == 12){
                 list_month.add(o);
             }
-        }
+        }*/
     }
 
 }

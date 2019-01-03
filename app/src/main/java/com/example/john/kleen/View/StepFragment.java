@@ -43,7 +43,7 @@ public class StepFragment extends Fragment {
 
         infoText = view.findViewById(R.id.info);
         textView = view.findViewById(R.id.text_steps);
-        loadData();
+        //loadData();
 
         if (getArguments() != null) {
             stepDisplay = getArguments().getInt(ARG_PARAM2);

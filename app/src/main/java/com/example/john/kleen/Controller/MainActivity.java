@@ -52,21 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ArrayList<ProgressObject> list = new ArrayList<>();
-        int steps;
-        save.read();
-        LocalDate tmp = LocalDate.of(2018, 1, 1);
-        while (tmp.isBefore(LocalDate.of(2019, 1, 1))) {
-            steps = ThreadLocalRandom.current().nextInt(8000, 13000);
-            list.add(new ProgressObject(
-                   steps,
-                    tmp.isBefore(LocalDate.of(2018, 5, 23)) ? 10000 : 11000,
-                    tmp,
-                    tmp.isBefore(LocalDate.of(2018, 12, 16)) ? 65 : 64,
-                    steps * 0.05
-           ));
-            tmp = tmp.plusDays(1);
-        }
-        save.write(list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void receivedData(StepEvent stepEvent) {
-        StepFragment.updateStepCounter(stepEvent.getSteps());
+    public void receivedData(ProgressObject progressObject) {
+        StepFragment.updateStepCounter(progressObject.getSteps());
     }
 
     @Override
@@ -156,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 2;
         }
     }
 

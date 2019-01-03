@@ -1,24 +1,39 @@
 package com.example.john.kleen.Model;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
-public class ProgressObject implements Serializable {
+public class ProgressObject  {
 
     private int steps;
     private int step_goal;
-    private LocalDate date;
+    private String date;
     private int weight;
     private double calories;
 
-    public ProgressObject(int steps, int step_goal, LocalDate date, int weight, double calories) {
+    public ProgressObject(int steps, int step_goal, int weight, double calories) {
         this.steps = steps;
         this.step_goal = step_goal;
-        this.date = date;
         this.weight = weight;
         this.calories = calories;
+        Date currentDate = new Date();
+        SimpleDateFormat simpleDate = new SimpleDateFormat();
+        date = simpleDate.format(currentDate);
     }
+
+    public ProgressObject(int steps) {
+        this.steps = steps;
+        Date currentDate = new Date();
+        SimpleDateFormat simpleDate = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        date = simpleDate.format(currentDate);
+    }
+
+    public ProgressObject(){
+
+    }
+
 
     public int getSteps() {
         return steps;
@@ -28,7 +43,8 @@ public class ProgressObject implements Serializable {
         return step_goal;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
+
         return date;
     }
 
@@ -38,5 +54,16 @@ public class ProgressObject implements Serializable {
 
     public double getCalories() {
         return calories;
+    }
+
+    @Override
+    public String toString() {
+        return "ProgressObject{" +
+                "steps=" + steps +
+                ", step_goal=" + step_goal +
+                ", date='" + date + '\'' +
+                ", weight=" + weight +
+                ", calories=" + calories +
+                '}';
     }
 }
