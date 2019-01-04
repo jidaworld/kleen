@@ -22,14 +22,11 @@ import com.example.john.kleen.DB.CallBack;
 import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.Util.BusStation;
-import com.example.john.kleen.Model.StepEvent;
 import com.example.john.kleen.Model.WeightCalories;
 import com.example.john.kleen.R;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -136,8 +133,8 @@ public class StepCounterService extends Service implements SensorEventListener {
     }
 
     @Subscribe
-    public void receivedData(WeightCalories weightCalories){
-        Log.i("FirebaseDebug",weightCalories.toString());
+    public void receivedDataGoalAndWeight(WeightCalories weightCalories){
+        Log.i("FirebaseDebug","hello" + weightCalories.toString());
         if(weightCalories.getWeight()!=0) {
             this.weight = weightCalories.getWeight();
             saveData(new ProgressObject(steps,goal,weight));

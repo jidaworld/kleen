@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.john.kleen.Controller.StepCounterService;
+import com.example.john.kleen.DB.DBHandler;
+import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.Util.BusStation;
 import com.example.john.kleen.Model.WeightCalories;
 import com.example.john.kleen.R;
@@ -60,12 +61,13 @@ public class StepFragment extends Fragment {
             if (!goal.equals("")) {
                 int step_goal = Integer.parseInt(goal);
 
-                BusStation.getBus().post(new WeightCalories(0,0,step_goal));
-
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("goal", step_goal);
                 editor.apply();
+
+                ProgressObject po = new ProgressObject(0,step_goal,0);
+                DBHandler.updateChild(po);
                 token = new StringTokenizer(infoText.getText().toString(), ".");
                 token.nextToken();
                 text = "Current goal: " + step_goal + "." + token.nextToken();
@@ -78,12 +80,14 @@ public class StepFragment extends Fragment {
             String weight = ((EditText) view.findViewById(R.id.weight_input)).getText().toString();
             if (!weight.equals("")) {
                 int weight_int = Integer.parseInt(weight);
-                BusStation.getBus().post(new WeightCalories(weight_int,0,0));
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("weight_save", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("weight", weight_int);
                 editor.apply();
+
+                ProgressObject po = new ProgressObject(0,0,weight_int);
+                DBHandler.updateChild(po);
                 token = new StringTokenizer(infoText.getText().toString(), ".");
                 text = token.nextToken() + ". You weigh " + weight_int + " kg";
                 infoText.setText(text);

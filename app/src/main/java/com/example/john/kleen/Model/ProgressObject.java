@@ -40,7 +40,6 @@ public class ProgressObject  {
     }
 
     public String getDate() {
-
         return date;
     }
 
@@ -48,4 +47,13 @@ public class ProgressObject  {
         return weight;
     }
 
+    @Override
+    public String toString() {
+        return "ProgressObject{" +
+                "steps=" + steps +
+                ", step_goal=" + step_goal +
+                ", date='" + date + '\'' +
+                ", weight=" + weight +
+                '}';
+    }
 }

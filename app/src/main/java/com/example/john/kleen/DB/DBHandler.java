@@ -14,7 +14,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DBHandler {
 
@@ -61,7 +63,7 @@ public class DBHandler {
         public Exception error = null;
     }
 
-    public void sendToDB(ProgressObject po) {
+    public static void sendToDB(ProgressObject po) {
         myRef.child("test").child(po.getDate()).setValue(po)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -75,6 +77,17 @@ public class DBHandler {
                         Log.i("DebugFirebase","Failed!");
                     }
                 });
+    }
+
+    public static void updateChild(ProgressObject po){
+        Map<String, Object> postValues = new HashMap<String,Object>();
+        if(po.getStep_goal()!=0) {
+            myRef.child("test").child(po.getDate()).child("step_goal").setValue(po.getStep_goal());
+        }
+        if (po.getWeight() != 0) {
+            myRef.child("test").child(po.getDate()).child("weight").setValue(po.getWeight());
+        }
+
     }
 
     public static FirebaseDatabase getDb() {
