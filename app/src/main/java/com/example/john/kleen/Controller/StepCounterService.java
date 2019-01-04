@@ -23,8 +23,10 @@ import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
 import com.example.john.kleen.Model.Util.BusStation;
 import com.example.john.kleen.Model.StepEvent;
+import com.example.john.kleen.Model.WeightCalories;
 import com.example.john.kleen.R;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.otto.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -34,7 +36,9 @@ import java.util.List;
 
 public class StepCounterService extends Service implements SensorEventListener {
 
-    private static int steps = -1;
+    private static int steps = 1000;
+    private int weight = 0;
+    private int goal = 0;
     public static final String CHANNEL_1_ID = "channel1";
     public static final String CHANNEL_2_ID = "channel2";
     private NotificationManagerCompat notificationManagerCompat;
@@ -64,11 +68,11 @@ public class StepCounterService extends Service implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         steps++;
-        ProgressObject po = new ProgressObject(steps);
+        ProgressObject po = new ProgressObject(steps,goal,weight);
         BusStation.getBus().post(po);
         Log.i("StepCounter", "Step Counter: " + Integer.toString(steps));
         counter++;
-        if (counter >= 25) {
+        if (counter >= 5) {
             saveData(po);
             counter = 0;
         }
@@ -116,6 +120,7 @@ public class StepCounterService extends Service implements SensorEventListener {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setContentIntent(pendingIntent)
+                .setOnlyAlertOnce(true)
                 .build();
         notificationManagerCompat.notify(1, notification);
     }
@@ -130,13 +135,19 @@ public class StepCounterService extends Service implements SensorEventListener {
         //???
     }
 
-/*    public void saveData(){
-        SharedPreferences sharedPreferences = getSharedPreferences(save, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Log.i("StepCounter","Saved Data");
-        editor.putInt("steps",steps);
-        editor.apply();
-    }*/
+    @Subscribe
+    public void receivedData(WeightCalories weightCalories){
+        Log.i("FirebaseDebug",weightCalories.toString());
+        if(weightCalories.getWeight()!=0) {
+            this.weight = weightCalories.getWeight();
+            saveData(new ProgressObject(steps,goal,weight));
+        }
+        if(weightCalories.getGoal()!=0){
+            this.goal = weightCalories.getGoal();
+            saveData(new ProgressObject(steps,goal,weight));
+        }
+    }
+
 
     public void saveData(ProgressObject po) {
         dbH.sendToDB(po);
@@ -156,20 +167,21 @@ public class StepCounterService extends Service implements SensorEventListener {
                                     .get(list.size() - 1)
                                     .getDate()))
                         steps = list.get(list.size() - 1).getSteps();
-                    ProgressObject po = new ProgressObject(steps);
+                        goal = list.get(list.size()-1).getStep_goal();
+                        weight = list.get(list.size()-1).getWeight();
+                    ProgressObject po = new ProgressObject(steps,goal,weight);
                     BusStation.getBus().post(po);
                 }
                 poList = list;
                 BusStation.getBus().post(poList);
             }
-
         });
-    }
 
+    }
 
     public void getCurrentDate() {
         Date currentDate = new Date();
-        SimpleDateFormat simpleDate = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        SimpleDateFormat simpleDate = new SimpleDateFormat("d, M, yyyy");
         currentDateString = simpleDate.format(currentDate);
     }
 

@@ -9,22 +9,20 @@ public class ProgressObject  {
     private int step_goal;
     private String date;
     private int weight;
-    private double calories;
 
-    public ProgressObject(int steps, int step_goal, int weight, double calories) {
+    public ProgressObject(int steps, int step_goal, int weight) {
         this.steps = steps;
         this.step_goal = step_goal;
         this.weight = weight;
-        this.calories = calories;
         Date currentDate = new Date();
-        SimpleDateFormat simpleDate = new SimpleDateFormat();
+        SimpleDateFormat simpleDate = new SimpleDateFormat("d, M, yyyy");
         date = simpleDate.format(currentDate);
     }
 
     public ProgressObject(int steps) {
         this.steps = steps;
         Date currentDate = new Date();
-        SimpleDateFormat simpleDate = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        SimpleDateFormat simpleDate = new SimpleDateFormat("d, M, yyyy");
         date = simpleDate.format(currentDate);
     }
 
@@ -50,18 +48,4 @@ public class ProgressObject  {
         return weight;
     }
 
-    public double getCalories() {
-        return calories;
-    }
-
-    @Override
-    public String toString() {
-        return "ProgressObject{" +
-                "steps=" + steps +
-                ", step_goal=" + step_goal +
-                ", date='" + date + '\'' +
-                ", weight=" + weight +
-                ", calories=" + calories +
-                '}';
-    }
 }

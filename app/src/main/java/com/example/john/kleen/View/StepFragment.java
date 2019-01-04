@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.john.kleen.Controller.StepCounterService;
+import com.example.john.kleen.Model.Util.BusStation;
+import com.example.john.kleen.Model.WeightCalories;
 import com.example.john.kleen.R;
 
 import java.util.StringTokenizer;
@@ -56,7 +58,9 @@ public class StepFragment extends Fragment {
             if (!goal.equals("")) {
                 int step_goal = Integer.parseInt(goal);
 
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
+                BusStation.getBus().post(new WeightCalories(0,0,step_goal));
+
+                /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("goal", step_goal);
                 editor.apply();
@@ -72,6 +76,7 @@ public class StepFragment extends Fragment {
             String weight = ((EditText) view.findViewById(R.id.weight_input)).getText().toString();
             if (!weight.equals("")) {
                 int weight_int = Integer.parseInt(weight);
+                BusStation.getBus().post(new WeightCalories(weight_int,0,0));
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("weight_save", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
