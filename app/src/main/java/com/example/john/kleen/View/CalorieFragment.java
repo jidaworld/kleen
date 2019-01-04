@@ -59,9 +59,9 @@ public class CalorieFragment extends Fragment {
             }
         }
 
-        for (int i = 0; i < list_month.size(); i++) {
+        /*for (int i = 0; i < list_month.size(); i++) {
             calorieSeries.appendData(new DataPoint(i + 1, list_month.get(i).getCalories()), true, list_month.size());
-        }
+        }*/
 
     }
 }
