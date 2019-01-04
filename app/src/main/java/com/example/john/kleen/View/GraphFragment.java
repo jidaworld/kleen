@@ -38,6 +38,7 @@ public class GraphFragment extends Fragment {
     private static ArrayList<ProgressObject> yearList = new ArrayList<>();
     private static ArrayList<ProgressObject> monthList = new ArrayList<>();
     private static List<ProgressObject> poList = new ArrayList<>();
+    private static int maxY = 0;
     private View view;
     private TextView textView;
     private static TextView stepsAvr;
@@ -62,7 +63,7 @@ public class GraphFragment extends Fragment {
         GridLabelRenderer gridLabel = graph_year.getGridLabelRenderer();
         graph_year.getViewport().setMaxX(365);
         graph_year.getViewport().setXAxisBoundsManual(true);
-        graph_year.getViewport().setMaxY(15000);
+        graph_year.getViewport().setMaxY(maxY * 1.25);
         graph_year.getViewport().setMinX(0);
         graph_year.getViewport().setMinY(0);
         graph_year.getViewport().setYAxisBoundsManual(true);
@@ -70,7 +71,7 @@ public class GraphFragment extends Fragment {
 
         graph_month.getViewport().setMaxX(31);
         graph_month.getViewport().setXAxisBoundsManual(true);
-        graph_month.getViewport().setMaxY(15000);
+        graph_month.getViewport().setMaxY(maxY*1.25);
         graph_month.getViewport().setMinX(1);
         graph_month.getViewport().setMinY(0);
         graph_month.getViewport().setYAxisBoundsManual(true);
@@ -98,15 +99,15 @@ public class GraphFragment extends Fragment {
                     yearList.add(o);
                 }
                 arr = arr[1].split(" ");
-                for(int i = 0; i<arr.length;i++){
-                    System.out.println(i + " " + arr[i]);
-                }
                 if (arr[1].equals("1")) {
                     monthList.add(o);
                 }
             }
 
             for (int i = 0; i < yearList.size(); i++) {
+                if(maxY < yearList.get(i).getSteps()){
+                    maxY = yearList.get(i).getSteps();
+                }
                 stepSeries_year.appendData(new DataPoint(i, yearList.get(i).getSteps()), false, yearList.size());
                 goalSeries_year.appendData(new DataPoint(i, yearList.get(i).getStep_goal()), false, yearList.size());
                 avrSteps += yearList.get(i).getSteps();
@@ -120,6 +121,9 @@ public class GraphFragment extends Fragment {
                 stepSeries_month.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getSteps()), false, monthList.size());
                 goalSeries_month.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getStep_goal()), false, monthList.size());
             }
+            graph_year.getViewport().setMaxY(maxY * 1.25);
+            graph_month.getViewport().setMaxY(maxY*1.25);
+            System.out.println(maxY + " graph max");
 
             stepSeries_year.setColor(Color.BLACK);
             stepSeries_year.setTitle("steps");

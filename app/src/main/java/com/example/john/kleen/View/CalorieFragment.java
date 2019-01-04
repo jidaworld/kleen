@@ -23,6 +23,7 @@ public class CalorieFragment extends Fragment {
 
     private static ArrayList<ProgressObject> list_month = new ArrayList<>();
     private static GraphView graph;
+    private static double maxY = 0;
     private View view;
     private static LineGraphSeries<DataPoint> calorieSeries = new LineGraphSeries<>();
 
@@ -36,7 +37,8 @@ public class CalorieFragment extends Fragment {
         graph.getViewport().setMaxX(31);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(1);
-        graph.getViewport().setMaxY(700);
+        graph.getViewport().setMaxY(maxY*1.25);
+        System.out.println(maxY + " calorie max");
         graph.getViewport().setMinY(0);
         graph.getViewport().setYAxisBoundsManual(true);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
@@ -62,9 +64,15 @@ public class CalorieFragment extends Fragment {
             }
 
             for(ProgressObject o : list_month) {
+                if(maxY < ((double)o.getSteps())*0.05) {
+                    maxY = o.getSteps() * 0.05;
+                }
                 arr = o.getDate().split(",");
                 calorieSeries.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getSteps()*0.05), true, list_month.size());
             }
+            System.out.println(maxY);
+
+            //graph.getViewport().setMaxY(maxY*1.25);
         }
     }
 }

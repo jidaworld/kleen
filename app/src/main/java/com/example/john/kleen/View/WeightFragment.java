@@ -22,6 +22,7 @@ public class WeightFragment extends Fragment {
 
     private static ArrayList<ProgressObject> list_month = new ArrayList<>();
     private View view;
+    private static int maxY = 0;
     private static GraphView graph;
     private static LineGraphSeries<DataPoint> weightSeries = new LineGraphSeries<>();
 
@@ -36,9 +37,11 @@ public class WeightFragment extends Fragment {
         graph.getViewport().setMaxX(31);
         graph.getViewport().setMinX(1);
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMaxY(80);
+        System.out.println(maxY + " weight max");
+        graph.getViewport().setMaxY(maxY*1.25);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setYAxisBoundsManual(true);graph.getLegendRenderer().setVisible(true);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getLegendRenderer().setVisible(true);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle("januari");
 
@@ -55,15 +58,19 @@ public class WeightFragment extends Fragment {
                 arr = o.getDate().split(",");
                 arr = arr[1].split(" ");
                 if (arr[1].equals("1")) {
-                    System.out.println("added");
                     list_month.add(o);
                 }
             }
 
             for(ProgressObject o : list_month) {
+                if(maxY <  o.getWeight()){
+                    maxY = o.getWeight();
+                }
                 arr = o.getDate().split(",");
                 weightSeries.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getWeight()), true, list_month.size());
             }
+
+            //graph.getViewport().setMaxY(maxY);
         }
 
     }
