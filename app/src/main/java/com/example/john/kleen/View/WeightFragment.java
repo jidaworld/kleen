@@ -54,7 +54,7 @@ public class WeightFragment extends Fragment {
             for (ProgressObject o : poList) {
                 arr = o.getDate().split(",");
                 arr = arr[1].split(" ");
-                if (arr[1].equals("januari")) {
+                if (arr[1].equals("1")) {
                     System.out.println("added");
                     list_month.add(o);
                 }
@@ -62,8 +62,7 @@ public class WeightFragment extends Fragment {
 
             for(ProgressObject o : list_month) {
                 arr = o.getDate().split(",");
-                arr = arr[1].split(" ");
-                weightSeries.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getWeight()), true, list_month.size());
+                weightSeries.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getWeight()), true, list_month.size());
             }
         }
 

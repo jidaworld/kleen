@@ -60,9 +60,9 @@ public class GraphFragment extends Fragment {
         stepsAvr = view.findViewById(R.id.stepavr);
 
         GridLabelRenderer gridLabel = graph_year.getGridLabelRenderer();
-        graph_year.getViewport().setMaxX(30);
+        graph_year.getViewport().setMaxX(365);
         graph_year.getViewport().setXAxisBoundsManual(true);
-        graph_year.getViewport().setMaxY(1000);
+        graph_year.getViewport().setMaxY(15000);
         graph_year.getViewport().setMinX(0);
         graph_year.getViewport().setMinY(0);
         graph_year.getViewport().setYAxisBoundsManual(true);
@@ -98,7 +98,10 @@ public class GraphFragment extends Fragment {
                     yearList.add(o);
                 }
                 arr = arr[1].split(" ");
-                if (arr[1].equals("januari")) {
+                for(int i = 0; i<arr.length;i++){
+                    System.out.println(i + " " + arr[i]);
+                }
+                if (arr[1].equals("1")) {
                     monthList.add(o);
                 }
             }
@@ -114,9 +117,8 @@ public class GraphFragment extends Fragment {
 
             for (ProgressObject o : monthList) {
                 arr = o.getDate().split(",");
-                arr = arr[1].split(" ");
-                stepSeries_month.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getSteps()), false, monthList.size());
-                goalSeries_month.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getStep_goal()), false, monthList.size());
+                stepSeries_month.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getSteps()), false, monthList.size());
+                goalSeries_month.appendData(new DataPoint(Integer.parseInt(arr[0]), o.getStep_goal()), false, monthList.size());
             }
 
             stepSeries_year.setColor(Color.BLACK);

@@ -2,6 +2,7 @@ package com.example.john.kleen.View;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.step_fragment, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         infoText = view.findViewById(R.id.info);
         textView = view.findViewById(R.id.text_steps);
@@ -60,7 +62,7 @@ public class StepFragment extends Fragment {
 
                 BusStation.getBus().post(new WeightCalories(0,0,step_goal));
 
-                /*SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("goal_save", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("goal", step_goal);
                 editor.apply();
