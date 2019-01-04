@@ -50,18 +50,22 @@ public class CalorieFragment extends Fragment {
 
     public static void setPoList(List<ProgressObject> poList) {
 
-        String arr[];
-        for (ProgressObject o : poList) {
-            arr = o.getDate().split(",");
-            arr = arr[1].split(" ");
-            if (arr[1].equals("januari")) {
-                list_month.add(o);
+        if(list_month.isEmpty()) {
+            String arr[];
+
+            for (ProgressObject o : poList) {
+                arr = o.getDate().split(",");
+                arr = arr[1].split(" ");
+                if (arr[1].equals("januari")) {
+                    list_month.add(o);
+                }
+            }
+
+            for(ProgressObject o : list_month) {
+                arr = o.getDate().split(",");
+                arr = arr[1].split(" ");
+                calorieSeries.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getSteps()*0.05), true, list_month.size());
             }
         }
-
-        for (int i = 0; i < list_month.size(); i++) {
-            calorieSeries.appendData(new DataPoint(i + 1, list_month.get(i).getCalories()), true, list_month.size());
-        }
-
     }
 }

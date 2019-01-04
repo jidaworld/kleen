@@ -89,37 +89,42 @@ public class GraphFragment extends Fragment {
 
 
     public static void setPoList(List<ProgressObject> poList) {
-        String arr[];
-        for (ProgressObject o : poList) {
-            arr = o.getDate().split(",");
-            if (arr[2].equals(" 2019")) {
-                yearList.add(o);
+
+        if (yearList.isEmpty()) {
+            String arr[];
+            for (ProgressObject o : poList) {
+                arr = o.getDate().split(",");
+                if (arr[2].equals(" 2019")) {
+                    yearList.add(o);
+                }
+                arr = arr[1].split(" ");
+                if (arr[1].equals("januari")) {
+                    monthList.add(o);
+                }
             }
-            arr = arr[1].split(" ");
-            if (arr[1].equals("januari")) {
-                monthList.add(o);
+
+            for (int i = 0; i < yearList.size(); i++) {
+                stepSeries_year.appendData(new DataPoint(i, yearList.get(i).getSteps()), false, yearList.size());
+                goalSeries_year.appendData(new DataPoint(i, yearList.get(i).getStep_goal()), false, yearList.size());
+                avrSteps += yearList.get(i).getSteps();
             }
+
+            avrSteps /= yearList.size();
+            stepsAvr.setText("Average steps per day: " + avrSteps);
+
+            for (ProgressObject o : monthList) {
+                arr = o.getDate().split(",");
+                arr = arr[1].split(" ");
+                stepSeries_month.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getSteps()), false, monthList.size());
+                goalSeries_month.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getStep_goal()), false, monthList.size());
+            }
+
+            stepSeries_year.setColor(Color.BLACK);
+            stepSeries_year.setTitle("steps");
+            goalSeries_year.setColor(Color.RED);
+            goalSeries_year.setTitle("goal");
+            graph_year.getLegendRenderer().setVisible(true);
+
         }
-
-        for (int i = 0; i < yearList.size(); i++) {
-            stepSeries_year.appendData(new DataPoint(i, yearList.get(i).getSteps()), false, yearList.size());
-            goalSeries_year.appendData(new DataPoint(i, yearList.get(i).getStep_goal()), false, yearList.size());
-            avrSteps += yearList.get(i).getSteps();
-        }
-
-        avrSteps /= yearList.size();
-        stepsAvr.setText("Average steps per day: " + avrSteps);
-
-        for (int i = 0; i < monthList.size(); i++) {
-            stepSeries_month.appendData(new DataPoint(i+1, monthList.get(i).getSteps()), false, monthList.size());
-            goalSeries_month.appendData(new DataPoint(i+1, monthList.get(i).getStep_goal()), false, monthList.size());
-        }
-
-        stepSeries_year.setColor(Color.BLACK);
-        stepSeries_year.setTitle("steps");
-        goalSeries_year.setColor(Color.RED);
-        goalSeries_year.setTitle("goal");
-        graph_year.getLegendRenderer().setVisible(true);
-
     }
 }

@@ -43,7 +43,7 @@ public class StepFragment extends Fragment {
 
         infoText = view.findViewById(R.id.info);
         textView = view.findViewById(R.id.text_steps);
-        //loadData();
+        loadData();
 
         if (getArguments() != null) {
             stepDisplay = getArguments().getInt(ARG_PARAM2);
@@ -60,7 +60,7 @@ public class StepFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("goal", step_goal);
                 editor.apply();
-                token = new StringTokenizer(text, ".");
+                token = new StringTokenizer(infoText.getText().toString(), ".");
                 token.nextToken();
                 text = "Current goal: " + step_goal + "." + token.nextToken();
                 infoText.setText(text);
@@ -77,7 +77,7 @@ public class StepFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("weight", weight_int);
                 editor.apply();
-                token = new StringTokenizer(text, ".");
+                token = new StringTokenizer(infoText.getText().toString(), ".");
                 text = token.nextToken() + ". You weigh " + weight_int + " kg";
                 infoText.setText(text);
             }

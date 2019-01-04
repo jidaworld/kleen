@@ -38,29 +38,35 @@ public class WeightFragment extends Fragment {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMaxY(80);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);graph.getLegendRenderer().setVisible(true);
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         gridLabel.setHorizontalAxisTitle("januari");
+
         graph.addSeries(weightSeries);
-        graph.getLegendRenderer().setVisible(true);
+
         return view;
     }
 
     public static void setPoList(List<ProgressObject> poList) {
 
-        String arr[];
-        for (ProgressObject o : poList) {
-            arr = o.getDate().split(",");
-            arr = arr[1].split(" ");
-            if (arr[1].equals("januari")) {
-                System.out.println("added");
-                list_month.add(o);
+        if(list_month.isEmpty()) {
+            String arr[];
+            for (ProgressObject o : poList) {
+                arr = o.getDate().split(",");
+                arr = arr[1].split(" ");
+                if (arr[1].equals("januari")) {
+                    System.out.println("added");
+                    list_month.add(o);
+                }
+            }
+
+            for(ProgressObject o : list_month) {
+                arr = o.getDate().split(",");
+                arr = arr[1].split(" ");
+                weightSeries.appendData(new DataPoint(Integer.parseInt(arr[2]), o.getWeight()), true, list_month.size());
             }
         }
 
-        for(int i = 0; i<list_month.size();i++) {
-            weightSeries.appendData(new DataPoint(i+1, list_month.get(i).getWeight()), true, list_month.size());
-        }
     }
 
 }
