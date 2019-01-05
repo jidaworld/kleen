@@ -93,11 +93,12 @@ public class StepCounterService extends Service implements SensorEventListener {
 
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                     .setSmallIcon(R.drawable.ic_steps)
-                    .setContentTitle("Steps")
-                    .setContentText("Current steps: " + String.format("%d", steps))
+                    .setContentTitle("Stepcounter")
+                    .setContentText("Current steps: " + String.format("%d", steps) + " Current goal: " + String.format("%d", goal))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setContentIntent(pendingIntent)
+                    .setOnlyAlertOnce(true)
                     .build();
 
             startForeground(1, notification);
@@ -112,8 +113,8 @@ public class StepCounterService extends Service implements SensorEventListener {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_steps)
-                .setContentTitle("Yay")
-                .setContentText("Current steps: " + String.format("%d", steps))
+                .setContentTitle("Stepcounter")
+                .setContentText("Current steps: " + String.format("%d", steps) + " Current goal: " + String.format("%d", goal))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setContentIntent(pendingIntent)
