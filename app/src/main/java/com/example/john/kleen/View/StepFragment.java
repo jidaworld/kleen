@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,6 @@ import android.widget.TextView;
 import com.example.john.kleen.Controller.StepCounterService;
 import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
-import com.example.john.kleen.Model.Util.BusStation;
-import com.example.john.kleen.Model.WeightCalories;
 import com.example.john.kleen.R;
 
 import java.util.StringTokenizer;

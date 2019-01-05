@@ -1,10 +1,8 @@
 package com.example.john.kleen.Controller;
 
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,19 +11,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ActivityChooserView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 import android.widget.TextView;
 
-import com.example.john.kleen.DB.CallBack;
-import com.example.john.kleen.DB.DBHandler;
+
 import com.example.john.kleen.Model.ProgressObject;
-import com.example.john.kleen.Model.SaveData;
-import com.example.john.kleen.Model.StepEvent;
 import com.example.john.kleen.Model.Util.BusStation;
 import com.example.john.kleen.R;
 import com.example.john.kleen.View.GraphFragment;
@@ -33,14 +27,9 @@ import com.example.john.kleen.View.CalorieFragment;
 import com.example.john.kleen.View.StepFragment;
 import com.example.john.kleen.View.WeightFragment;
 import com.squareup.otto.Subscribe;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    public SaveData save = new SaveData(this);
     private List<ProgressObject> poList = new ArrayList<>();
 
 

@@ -2,32 +2,21 @@ package com.example.john.kleen.View;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.john.kleen.DB.CallBack;
-import com.example.john.kleen.DB.DBHandler;
 import com.example.john.kleen.Model.ProgressObject;
-import com.example.john.kleen.Model.SaveData;
 import com.example.john.kleen.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.squareup.otto.Subscribe;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.ThreadLocalRandom;

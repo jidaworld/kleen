@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.john.kleen.Model.ProgressObject;
-import com.example.john.kleen.Model.SaveData;
 import com.example.john.kleen.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
